@@ -8,7 +8,6 @@
     "dev": "cross-env NODE_ENV=development node ./dist/bin/www",
     "build": "tsc",
     "postinstall": "npm run tsc",
-    "prestart": "npm run build --scripts-prepend-node-path",
     "start": "cross-env NODE_ENV=production node ./dist/bin/www",
     "db:migrate": "ts-node $(npm bin)/typeorm migration:run",
     "db:generate": "ts-node $(npm bin)/typeorm migration:generate",
