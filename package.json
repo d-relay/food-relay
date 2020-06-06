@@ -4,10 +4,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "tsc": "tsc",
-    "dev": "cross-env NODE_ENV=development node ./dist/bin/www",
-    "postinstall": "npm run tsc",
-    "start": "node ./dist/bin/www",
+    "dev": "cross-env NODE_ENV=development ts-node bin/www.ts",
+    "start": "ts-node bin/www.ts",
     "db:migrate": "ts-node $(npm bin)/typeorm migration:run",
     "db:generate": "ts-node $(npm bin)/typeorm migration:generate",
     "db:create": "ts-node $(npm bin)/typeorm migration:create"
