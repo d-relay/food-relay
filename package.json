@@ -11,6 +11,7 @@
     "db:create": "ts-node $(npm bin)/typeorm migration:create"
   },
   "dependencies": {
+    "@koa/cors": "^3.1.0",
     "@koa/router": "^9.0.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
@@ -29,7 +30,6 @@
     "typescript": "^3.9.3"
   },
   "devDependencies": {
-    "@koa/cors": "^3.1.0",
     "@types/debug": "^4.1.5",
     "@types/koa": "^2.11.3",
     "@types/koa-ejs": "^4.2.2",
