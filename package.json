@@ -4,6 +4,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "tsc": "tsc",
     "dev": "cross-env NODE_ENV=development node ./dist/bin/www",
     "postinstall": "npm run tsc",
     "start": "node ./dist/bin/www",
