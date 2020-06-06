@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "lib": [],
+        "target": "ES2020",
+        "module": "CommonJS",
+        "outDir": "dist",
+        "strict": false,
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "skipDefaultLibCheck": true
+    },
+    "include": [
+        "bin/www.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ],
+    "rootDir": "bin/*",
+    "outDir": "./dist",
+}
