@@ -1,14 +1,11 @@
 import { config as loadENV } from 'dotenv';
 loadENV({ path: '.env' })
-
-import path from 'path';
 import Koa from 'koa';
 import cors from '@koa/cors';
 import session from 'koa-session'
 import morgan from 'koa-morgan';
 import bodyParser from 'koa-body';
 import passport from 'koa-passport';
-import hbs from 'koa-hbs';
 
 import { controller } from './routes';
 import { createStream } from 'rotating-file-stream';
@@ -31,15 +28,10 @@ app.use(morgan('combined', { stream: accessLogStream }));
 app.use(bodyParser());
 app.use(cors({ credentials: true }));
 
-app.keys = [process.env.COOKIE_SECRET, process.env.SESSION_SECRET];
-app.use(session({ signed: true }, app));
+app.keys = [process.env.COOKIE_SECRET];
+app.use(session({ key: process.env.SESSION_SECRET }, app));
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use(hbs.middleware({
-    viewPath: path.resolve(__dirname, './../', 'views')
-}));
-
 
 app.use(async (ctx, next) => {
     try {

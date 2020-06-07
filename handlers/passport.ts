@@ -7,7 +7,7 @@ const options = {
     clientID: process.env.TWITCH_CLIENT_ID,
     clientSecret: process.env.TWITCH_CLIENT_SECRET,
     callbackURL: "http://127.0.0.1:5000/auth/twitch/callback",
-    scope: "user:read:email analytics:read:games",
+    scope: "user:read:email",
     state: true
 }
 
