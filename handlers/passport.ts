@@ -6,7 +6,7 @@ import { Strategy as TwitchStrategy } from 'passport-twitch';
 const options = {
     clientID: process.env.TWITCH_CLIENT_ID,
     clientSecret: process.env.TWITCH_CLIENT_SECRET,
-    callbackURL: "http://127.0.0.1:5000/auth/twitch/callback",
+    callbackURL: process.env.REDIRECT_URL,
     scope: "user:read:email",
     state: true
 }
