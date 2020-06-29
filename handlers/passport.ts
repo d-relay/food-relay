@@ -1,46 +1,19 @@
 import passport from 'koa-passport';
 import { getManager } from "typeorm";
 import { User } from "../entities/User.entity";
-import { Strategy as TwitchStrategy } from 'passport-twitch';
+import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 
 const options = {
-    clientID: process.env.TWITCH_CLIENT_ID,
-    clientSecret: process.env.TWITCH_CLIENT_SECRET,
-    callbackURL: process.env.REDIRECT_URL,
-    scope: "user:read:email",
-    state: true
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: process.env.COOKIE_SECRET
 }
 
-passport.serializeUser(function (profile, done) {
-    done(null, profile);
-});
-
-passport.deserializeUser(function (profile, done) {
-    done(null, profile);
-});
-
-passport.use('twitch', new TwitchStrategy(options, async function (accessToken: string, refreshToken: string, profile: any, done: any) {
+passport.use(new JwtStrategy(options, async (jwtPayload, done) => {
     try {
         const connection = getManager();
-        profile.accessToken = accessToken;
-        profile.refreshToken = refreshToken;
-
-        const user = await connection.findOne(User, { where: { client_id: profile.id } });
-
-        if (user) {
-            return done(null, user ?? false);
-        } else {
-            const user = connection.create(User, {
-                client_id: profile.id,
-                accessToken: profile.accessToken,
-                refreshToken: profile.refreshToken,
-                login: profile.login
-            })
-            const updated = await connection.save(user);
-            return done(null, updated ?? false);
-        }
+        const user = await connection.findOne(User, { where: { id: jwtPayload.id } });
+        return done(null, user ?? false);
     } catch (err) {
         return done(err, false);
     }
 }))
-

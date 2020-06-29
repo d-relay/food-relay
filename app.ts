@@ -6,7 +6,6 @@ import session from 'koa-session'
 import morgan from 'koa-morgan';
 import bodyParser from 'koa-body';
 import passport from 'koa-passport';
-
 import { controller } from './routes';
 import { createStream } from 'rotating-file-stream';
 import { getManager, } from "typeorm";
@@ -24,8 +23,8 @@ function generator(this: { filename: string }, time: number | Date): string {
 const accessLogStream = createStream(generator.bind({ filename: "accessLogStream.log" }), { size: "10M", interval: "1M" });
 const errorBackendLogStream = createStream(generator.bind({ filename: "errorBackendLogStream.log" }), { size: "10M", interval: "1M" });
 
+app.use(bodyParser({ json: true }));
 app.use(morgan('combined', { stream: accessLogStream }));
-app.use(bodyParser());
 app.use(cors({ credentials: true }));
 
 app.keys = [process.env.COOKIE_SECRET];

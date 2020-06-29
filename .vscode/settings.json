@@ -1,5 +1,0 @@
-{
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "editor.fontFamily": "JetBrains Mono",
-    "javascript.implicitProjectConfig.experimentalDecorators": true
-}

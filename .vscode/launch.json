@@ -1,18 +1,17 @@
 {
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"name": "Node Inspector",
-			"type": "node",
-			"request": "launch",
-			"args": ["${workspaceRoot}/bin/www.ts"],
-			"runtimeArgs": ["-r", "ts-node/register"],
-			"cwd": "${workspaceRoot}",
-			"protocol": "inspector",
-			"internalConsoleOptions": "openOnSessionStart",
-			"env": {
-				"TS_NODE_IGNORE": "false"
-			}
-		}
-	]
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch TS",
+            "type": "node",
+            "request": "launch",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "args": [
+                "${workspaceFolder}/bin/www.ts"
+            ]
+        }
+    ]
 }
