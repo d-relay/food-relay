@@ -31,7 +31,6 @@ router.post('/login', async (ctx, next) => {
         if (json.user_id === user.client_id) {
             ctx.status = 200;
             ctx.body = {
-                _id: user.client_id,
                 token: user.getToken()
             };
         } else {
