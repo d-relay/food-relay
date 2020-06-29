@@ -8,7 +8,7 @@ router.prefix('/');
 router.post('/login', async (ctx, next) => {
     const connection: EntityManager = ctx.state.connection;
     const { id, login, email, accessToken } = ctx.request.body;
-    const user: User = await connection.findOne(User, { where: { id } });
+    const user: User = await connection.findOne(User, { where: { client_id: id } });
 
     if (!user) {
         const user = connection.create<User>(User, { client_id: id, login: login, email: email });
@@ -31,7 +31,7 @@ router.post('/login', async (ctx, next) => {
         if (json.user_id === user.client_id) {
             ctx.status = 200;
             ctx.body = {
-                _id: user.id,
+                _id: user.client_id,
                 token: user.getToken()
             };
         } else {
