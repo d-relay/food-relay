@@ -1,16 +1,17 @@
 import app from '../app';
 import debug from 'debug';
-import http2 from 'http2';
+import http from 'http';
 
 debug('relay:server');
 
 const port: number = normalizePort(process?.env?.PORT);
 
+const server = http.createServer(app.callback());
 
-const serverHttp2 = http2.createServer(app.callback());
-serverHttp2.listen(port, () => console.log('listen ' + port));
-serverHttp2.on('error', onError);
-serverHttp2.on('listening', onListening2);
+server.listen(port, () => console.log('listen ' + port));
+server.on('error', onError);
+server.on('listening', onListening);
+
 
 function normalizePort(val: string | undefined) {
   if (!val) return 5000;
@@ -44,8 +45,8 @@ function onError(error: any) {
   }
 }
 
-function onListening2() {
-  const addr = serverHttp2.address();
+function onListening() {
+  const addr = server.address();
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr?.port;
