@@ -1,14 +1,10 @@
-import auth from './auth';
-import me from './me';
-// import profile from './profiles';
+import auth from './Auth';
+import profile from './Profile';
 
 export const controller = (app: any) => {
     app.use(auth.routes());
     app.use(auth.allowedMethods());
 
-    app.use(me.routes());
-    app.use(me.allowedMethods())
-
-    // app.use(profile.routes());
-    // app.use(profile.allowedMethods())
+    app.use(profile.routes());
+    app.use(profile.allowedMethods())
 }

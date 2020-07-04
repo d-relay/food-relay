@@ -1,7 +1,6 @@
 import passport from 'koa-passport';
-import { getManager } from "typeorm";
-import { User } from "../entities/User.entity";
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
+import { UserServices } from '../services/UserServices';
 
 const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -10,8 +9,8 @@ const options = {
 
 passport.use(new JwtStrategy(options, async (jwtPayload, done) => {
     try {
-        const connection = getManager();
-        const user = await connection.findOne(User, { where: { id: jwtPayload.id } });
+        const userServices = new UserServices();
+        const user = await userServices.FindByCliendId({ client_id: jwtPayload.id });
         return done(null, user ?? false);
     } catch (err) {
         return done(err, false);

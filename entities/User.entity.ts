@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Location } from './Location.entity'
 import jwt from 'jsonwebtoken';
 
@@ -10,12 +10,15 @@ export class User {
     @Column({ type: 'character varying', nullable: false, length: 255, unique: true }) login!: string;
     @Column({ type: 'integer', default: 0 }) sign_in_count!: number;
 
-    @Column({ type: 'timestamp without time zone', nullable: false, default: () => 'CURRENT_TIMESTAMP' }) current_sign_in_at!: Date;
-    @Column({ type: 'timestamp without time zone', nullable: false, default: () => 'CURRENT_TIMESTAMP' }) last_sign_in_at!: Date;
+    @CreateDateColumn() current_sign_in_at!: Date;
+    @UpdateDateColumn() last_sign_in_at!: Date;
 
+
+    @Column({ nullable: true })
+    locationId: number;
 
     @OneToOne(type => Location)
-    @JoinColumn() user!: Location;
+    @JoinColumn() location: Location;
 
     getToken() {
         return jwt.sign({ id: this.client_id }, String(process.env.COOKIE_SECRET), { expiresIn: 60 * 60 });

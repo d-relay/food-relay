@@ -3,7 +3,7 @@ createConnection({
     type: "postgres",
     url: process.env.TYPEORM_URL,
     synchronize: false,
-    logging: true,
+    logging: false,
     uuidExtension: 'pgcrypto',
     entities: [
         __dirname + '/../**/**.entity{.ts,.js}'
