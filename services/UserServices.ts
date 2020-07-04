@@ -4,21 +4,18 @@ import { User } from '../entities/User.entity';
 import { LocationServices } from './LocationServices';
 
 export class UserServices {
+    private userRepository = getRepository(User);
 
     async FindByCliendId({ client_id }): Promise<User> {
-        const userRepository = getRepository(User);
-        const user = await userRepository.findOne({ where: { client_id } });
+        const user = await this.userRepository.findOne({ where: { client_id } });
 
         return user;
     }
 
     async UserRegistration({ client_id, login, email }): Promise<User> {
-        const locationServices = new LocationServices();
-        const location = await locationServices.createEmptyLocation();
-
-        const userRepository = getRepository(User)
-        const user = userRepository.create({ client_id, login, email, location });
-        return userRepository.save(user);
+        const location = await new LocationServices().createEmptyLocation();
+        const user = this.userRepository.create({ client_id, login, email, location });
+        return this.userRepository.save(user);
     }
 
     async UserTokenValidation({ client_id, accessToken }): Promise<Boolean | Error> {
