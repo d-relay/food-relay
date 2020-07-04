@@ -47,8 +47,6 @@
     "@types/node-fetch": "^2.x"
   },
   "engines": {
-    "node": ">=14.4",
-    "npm": ">=6.14",
-    "yarn": ">=1.22"
+    "node": ">=14"
   }
 }

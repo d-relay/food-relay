@@ -1,6 +1,6 @@
 import auth from './Auth';
-import profile from './Profile';
 import location from './Location';
+import profile from './Profile';
 
 export const controller = (app: any) => {
     app.use(auth.routes());
