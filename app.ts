@@ -23,7 +23,7 @@ function generator(this: { filename: string }, time: number | Date): string {
 const accessLogStream = createStream(generator.bind({ filename: "accessLogStream.log" }), { size: "10M", interval: "1M" });
 const errorBackendLogStream = createStream(generator.bind({ filename: "errorBackendLogStream.log" }), { size: "10M", interval: "1M" });
 
-app.use(bodyParser({ json: true }));
+app.use(bodyParser());
 app.use(morgan('combined', { stream: accessLogStream }));
 app.use(cors({ credentials: true }));
 

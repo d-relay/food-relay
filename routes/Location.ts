@@ -16,6 +16,16 @@ router.get('/location', passport.authenticate('jwt', { session: false }), async 
     };
 })
 
+router.post('/location', passport.authenticate('jwt', { session: false }), async (ctx: any, next) => {
+    const user: User = ctx.state.user;
 
+    const locationServices = new LocationServices();
+    const location = await locationServices.UpdateFields({
+        id: user.locationId, params: ctx.request.body
+    });
+
+    ctx.status = 200;
+    ctx.body = { location };
+})
 
 export default router;

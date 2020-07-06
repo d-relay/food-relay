@@ -12,4 +12,9 @@ export class LocationServices {
     async FindLocationById({ id }): Promise<Location> {
         return this.locationRepository.findOne({ where: { id } });
     }
+
+    async UpdateFields({ id, params }): Promise<Location> {
+        await this.locationRepository.update({ id }, { ...params });
+        return this.locationRepository.findOne({ where: { id } });
+    }
 }
