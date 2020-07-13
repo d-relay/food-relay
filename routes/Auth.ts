@@ -1,14 +1,15 @@
 import Router from '@koa/router';
-import { UserServices } from '../services/UserServices';
+import { UserServices } from '../services';
+import { User } from '../entities';
 const router = new Router();
 
 router.post('/login', async (ctx, next) => {
     const { id: client_id, login, email, accessToken } = ctx.request.body;
     const userServises = new UserServices();
-    const user = await userServises.FindByCliendId({ client_id });
+    const user: User = await userServises.FindByCliendId({ client_id });
 
     if (!user) {
-        const user = await userServises.UserRegistration({ client_id, login, email });
+        const user: User = await userServises.UserRegistration({ client_id, login, email });
         ctx.status = 200;
         ctx.body = {
             _id: user.client_id,

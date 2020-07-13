@@ -1,16 +1,16 @@
 import { config as loadENV } from 'dotenv';
 loadENV({ path: '.env' })
-import Koa from 'koa';
 import cors from '@koa/cors';
-import session from 'koa-session'
-import morgan from 'koa-morgan';
+import Koa from 'koa';
 import bodyParser from 'koa-body';
+import morgan from 'koa-morgan';
 import passport from 'koa-passport';
-import { controller } from './routes';
+import session from 'koa-session';
 import { createStream } from 'rotating-file-stream';
-import { getManager, } from "typeorm";
+import { getManager } from "typeorm";
 import './config/db';
 import './handlers/passport';
+import { controller } from './routes';
 
 const app = new Koa();
 

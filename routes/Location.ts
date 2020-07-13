@@ -1,14 +1,14 @@
 import Router from '@koa/router';
 import passport from 'koa-passport';
-import { User } from '../entities/User.entity';
-import { LocationServices } from '../services/LocationServices'
+import { User } from '../entities';
+import { LocationServices } from '../services';
 const router = new Router();
 
 router.get('/location', passport.authenticate('jwt', { session: false }), async (ctx: any, next) => {
     const user: User = ctx.state.user;
 
     const locationServices = new LocationServices();
-    const location = await locationServices.FindLocationById({ id: user.locationId });
+    const location = await locationServices.FindByUser({ user });
 
     ctx.status = 200;
     ctx.body = {
@@ -21,7 +21,7 @@ router.post('/location', passport.authenticate('jwt', { session: false }), async
 
     const locationServices = new LocationServices();
     const location = await locationServices.UpdateFields({
-        id: user.locationId, params: ctx.request.body
+        user, params: ctx.request.body
     });
 
     ctx.status = 200;

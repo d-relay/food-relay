@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm";
+import { User } from "./User.entity";
 
 @Entity()
 export class Location {
@@ -16,4 +17,8 @@ export class Location {
     @Column({ type: "character varying", length: 4, nullable: true }) entrance: string;
     @Column({ type: "character varying", length: 4, nullable: true }) floor: string;
     @Column({ type: "character varying", length: 4, nullable: true }) flat: string;
+
+
+    @OneToOne(type => User)
+    @JoinColumn() user: User;
 }

@@ -13,13 +13,6 @@ export class User {
     @CreateDateColumn() current_sign_in_at!: Date;
     @UpdateDateColumn() last_sign_in_at!: Date;
 
-
-    @Column({ nullable: true })
-    locationId: number;
-
-    @OneToOne(type => Location)
-    @JoinColumn() location: Location;
-
     getToken() {
         return jwt.sign({ id: this.client_id }, String(process.env.COOKIE_SECRET), { expiresIn: 60 * 60 });
     }

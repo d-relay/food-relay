@@ -1,7 +1,6 @@
 import fetch, { Headers } from 'node-fetch';
 import { getRepository } from "typeorm";
-import { User } from '../entities/User.entity';
-import { LocationServices } from './LocationServices';
+import { Alert, Location, User } from '../entities';
 
 export class UserServices {
     private userRepository = getRepository(User);
@@ -13,9 +12,11 @@ export class UserServices {
     }
 
     async UserRegistration({ client_id, login, email }): Promise<User> {
-        const location = await new LocationServices().createEmptyLocation();
-        const user = this.userRepository.create({ client_id, login, email, location });
-        return this.userRepository.save(user);
+        const user = await this.userRepository.save({ client_id, login, email });
+        await getRepository(Location).save({ user });
+        await getRepository(Alert).save({ user });
+
+        return user;
     }
 
     async UserTokenValidation({ client_id, accessToken }): Promise<Boolean | Error> {
