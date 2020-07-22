@@ -33,13 +33,13 @@ router.post('/alert/test/:alertToken', passport.authenticate('jwt', { session: f
     if (ctx.wss) {
         try {
             const wss = [...ctx.wss.clients].filter(ws => ws.id === alertToken);
-            return wss.map(ws => ws.send(alertToken));
+            wss.map(ws => ws.send(alertToken));
         } catch (error) {
             return next();
         }
     }
     ctx.status = 200;
-    ctx.body = {};
+    ctx.body = { status: 'ok' };
 })
 
 export default router;
