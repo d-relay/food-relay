@@ -7,10 +7,14 @@ import morgan from 'koa-morgan';
 import passport from 'koa-passport';
 import session from 'koa-session';
 import { createStream } from 'rotating-file-stream';
-import { getManager } from "typeorm";
 import './config/db';
 import './handlers/passport';
 import { controller } from './routes';
+
+import debug from 'debug';
+import http from 'http';
+import { Server } from 'ws';
+import url from 'url';
 
 const app = new Koa();
 
@@ -33,6 +37,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(async (ctx, next) => {
+    ctx.wss = wss;
+    return next();
+});
+
+
+app.use(async (ctx, next) => {
     try {
         await next();
     } catch (err) {
@@ -43,11 +53,6 @@ app.use(async (ctx, next) => {
         ctx.app.emit('error', err, ctx);
     }
 });
-
-app.use(async function (ctx, next) {
-    ctx.state.connection = getManager();
-    await next();
-})
 
 controller(app);
 
@@ -60,4 +65,45 @@ app.on('error', (err: Error, ctx: Koa.ParameterizedContext) => {
     errorBackendLogStream.write(errorMessage);
 });
 
-export default app;
+const port: number = +process?.env?.PORT || 5000;
+const server = http.createServer(app.callback());
+const wss = new Server({ server });
+
+server.listen(port, () => debug('listen ' + port));
+server.on('error', (error: any) => {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
+
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+        default:
+            throw error;
+    }
+});
+
+server.on('listening', () => {
+    const addr = server.address();
+    const bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr?.port;
+    debug('Listening on ' + bind);
+});
+
+wss.on('connection', (ws, req) => {
+    const token = url.parse(req.url, true);
+    if (token) {
+        (<any>ws).id = token.href.substring(1);
+        ws.on('close', () => debug('Client disconnected'));
+    }
+    return;
+});

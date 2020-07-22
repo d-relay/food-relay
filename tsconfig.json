@@ -13,7 +13,7 @@
         "skipDefaultLibCheck": true
     },
     "include": [
-        "bin/www.ts"
+        "app.ts"
     ],
     "exclude": [
         "node_modules"

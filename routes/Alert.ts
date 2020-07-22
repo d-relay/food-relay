@@ -28,4 +28,18 @@ router.post('/alert', passport.authenticate('jwt', { session: false }), async (c
     ctx.body = { alert };
 })
 
+router.post('/alert/test/:alertToken', passport.authenticate('jwt', { session: false }), async (ctx: any, next) => {
+    const { alertToken } = ctx.params;
+    if (ctx.wss) {
+        try {
+            const wss = [...ctx.wss.clients].filter(ws => ws.id === alertToken);
+            return wss.map(ws => ws.send(alertToken));
+        } catch (error) {
+            return next()
+        }
+    }
+    ctx.status = 200;
+    ctx.body = {};
+})
+
 export default router;
