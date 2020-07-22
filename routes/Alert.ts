@@ -35,7 +35,7 @@ router.post('/alert/test/:alertToken', passport.authenticate('jwt', { session: f
             const wss = [...ctx.wss.clients].filter(ws => ws.id === alertToken);
             return wss.map(ws => ws.send(alertToken));
         } catch (error) {
-            return next()
+            return next();
         }
     }
     ctx.status = 200;

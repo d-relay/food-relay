@@ -41,7 +41,6 @@ app.use(async (ctx, next) => {
     return next();
 });
 
-
 app.use(async (ctx, next) => {
     try {
         await next();
@@ -75,7 +74,7 @@ server.on('error', (error: any) => {
         throw error;
     }
 
-    var bind = typeof port === 'string'
+    const bind = typeof port === 'string'
         ? 'Pipe ' + port
         : 'Port ' + port;
 
