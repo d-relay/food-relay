@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { Location } from './Location.entity'
 import jwt from 'jsonwebtoken';
 
 @Entity()
