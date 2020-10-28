@@ -32,7 +32,7 @@ app.use(morgan('combined', { stream: accessLogStream }));
 app.use(cors({ credentials: true }));
 
 app.keys = [process.env.COOKIE_SECRET];
-app.use(session({ key: process.env.SESSION_SECRET }, app));
+app.use(session({ key: process.env.SESSION_SECRET }, app as any));
 app.use(passport.initialize());
 app.use(passport.session());
 
