@@ -6,26 +6,18 @@ import bodyParser from 'koa-body';
 import morgan from 'koa-morgan';
 import passport from 'koa-passport';
 import session from 'koa-session';
-import { createStream } from 'rotating-file-stream';
+import { accessLogStream, errorBackendLogStream } from './config/logger';
+import {createSocketConnetion} from './config/socket-map'
 import './config/db';
 import './handlers/passport';
 import { controller } from './routes';
 
 import debug from 'debug';
 import http from 'http';
-import { Server } from 'ws';
-import url from 'url';
+// import { Server } from 'ws';
+// import url from 'url';
 
 const app = new Koa();
-
-function generator(this: { filename: string }, time: number | Date): string {
-    if (!time) return "logs/" + this.filename;
-    const date = new Date(time).toLocaleDateString();
-    return `logs/${date}/${date}-${this.filename}`;
-};
-
-const accessLogStream = createStream(generator.bind({ filename: "accessLogStream.log" }), { size: "10M", interval: "1M" });
-const errorBackendLogStream = createStream(generator.bind({ filename: "errorBackendLogStream.log" }), { size: "10M", interval: "1M" });
 
 app.use(bodyParser());
 app.use(morgan('combined', { stream: accessLogStream }));
@@ -35,11 +27,6 @@ app.keys = [process.env.COOKIE_SECRET];
 app.use(session({ key: process.env.SESSION_SECRET }, app as any));
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use(async (ctx, next) => {
-    ctx.wss = wss;
-    return next();
-});
 
 app.use(async (ctx, next) => {
     try {
@@ -66,7 +53,7 @@ app.on('error', (err: Error, ctx: Koa.ParameterizedContext) => {
 
 const port: number = +process?.env?.PORT || 5000;
 const server = http.createServer(app.callback());
-const wss = new Server({ server });
+createSocketConnetion(server);
 
 server.listen(port, () => debug('listen ' + port));
 server.on('error', (error: any) => {
@@ -96,13 +83,4 @@ server.on('listening', () => {
         ? 'pipe ' + addr
         : 'port ' + addr?.port;
     debug('Listening on ' + bind);
-});
-
-wss.on('connection', (ws, req) => {
-    const token = url.parse(req.url, true);
-    if (token) {
-        (<any>ws).id = token.href.substring(1);
-        ws.on('close', () => debug('Client disconnected'));
-    }
-    return;
 });

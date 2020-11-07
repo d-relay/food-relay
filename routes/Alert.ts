@@ -2,6 +2,7 @@ import Router from '@koa/router';
 import passport from 'koa-passport';
 import { User } from '../entities';
 import { AlertServices } from '../services';
+import { socketServer } from '../config/socket-map';
 const router = new Router();
 
 router.get('/alert', passport.authenticate('jwt', { session: false }), async (ctx: any, next) => {
@@ -30,13 +31,9 @@ router.post('/alert', passport.authenticate('jwt', { session: false }), async (c
 
 router.post('/alert/test/:alertToken', passport.authenticate('jwt', { session: false }), async (ctx: any, next) => {
     const { alertToken } = ctx.params;
-    if (ctx.wss) {
-        try {
-            const wss = [...ctx.wss.clients].filter(ws => ws.id === alertToken);
-            wss.map(ws => ws.send(alertToken));
-        } catch (error) {
-            return next();
-        }
+    if (socketServer) {
+        const wss = [...socketServer.clients].filter(ws => (ws as any)._token === alertToken);
+        wss.map(ws => ws.send(alertToken));
     }
     ctx.status = 200;
     ctx.body = { status: 'ok' };
