@@ -12,8 +12,8 @@ export class Alert {
     @Column({ type: "smallint", default: 0 }) font_size: string;
     @Column({ type: "character varying", default: '', length: 50 }) message: string;
 
-    @Column({ type: "smallint", default: 5 }) duration: string;
-    @Column({ type: "smallint", default: 10 }) interval: string;
+    @Column({ type: "smallint", default: 5 }) duration: number;
+    @Column({ type: "smallint", default: 10 }) interval: number;
 
     @OneToOne(type => User)
     @JoinColumn() user: User;
