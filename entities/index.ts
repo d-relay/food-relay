@@ -1,9 +1,9 @@
-import { User } from './User.entity'
-import { Alert } from './Alert.entity'
-import { Location } from './Location.entity'
+import { User } from './User'
+import { Alert } from './Alert'
+import { Location } from './Location'
 
 export {
-    User,
-    Alert,
-    Location,
+	User,
+	Alert,
+	Location
 }

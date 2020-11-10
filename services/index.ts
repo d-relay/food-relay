@@ -4,8 +4,8 @@ import { ProfileServices } from './ProfileServices'
 import { UserServices } from './UserServices'
 
 export {
-    AlertServices,
-    LocationServices,
-    ProfileServices,
-    UserServices
+	AlertServices,
+	LocationServices,
+	ProfileServices,
+	UserServices
 }
