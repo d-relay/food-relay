@@ -6,9 +6,9 @@ import bodyParser from 'koa-body'
 import morgan from 'koa-morgan'
 import passport from 'koa-passport'
 import session from 'koa-session'
+loadENV()
 import { accessLogStream, errorBackendLogStream } from './config/logger'
 import { createSocketConnetion } from './config/socket-map'
-loadENV()
 import './config/db'
 import './handlers/passport'
 import { controller } from './routes'
