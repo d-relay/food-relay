@@ -4,9 +4,9 @@ createConnection({
 	type: 'postgres',
 	url: process.env.DATABASE_URL,
 	synchronize: false,
-	logging: true,
+	logging: false,
 	uuidExtension: 'pgcrypto',
 	entities: [
-		path.join(__dirname, '../entities/**.ts')
+		path.join(__dirname, '../entities/**.{.ts,.js}')
 	]
 })
