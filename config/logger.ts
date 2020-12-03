@@ -2,7 +2,7 @@ import { createStream } from 'rotating-file-stream'
 import Rollbar from "rollbar"
 
 const rollbar = new Rollbar({
-	accessToken: '7d33204e7ee247579fb0163e54f6531c',
+	accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
 	captureUncaught: true,
 	captureUnhandledRejections: true
 })
