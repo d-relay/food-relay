@@ -7,6 +7,6 @@ createConnection({
 	logging: false,
 	uuidExtension: 'pgcrypto',
 	entities: [
-		path.join(__dirname, '../entities/**.{.ts,.js}')
+		path.join(__dirname, '../entities/**.ts')
 	]
 })
