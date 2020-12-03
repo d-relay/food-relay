@@ -14,6 +14,7 @@ function generator(this: { filename: string }, time: number | Date): string {
 	if (!time) return 'logs/' + this.filename
 	const date = new Date(time).toLocaleDateString()
 	const log = `logs/${date}/${date}-${this.filename}`;
-	rollbar.log(log);
+	rollbar.debug(log);
+	console.log(log);
 	return log;
 };
