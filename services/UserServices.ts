@@ -1,6 +1,7 @@
 import fetch, { Headers } from 'node-fetch'
 import { getRepository } from 'typeorm'
 import { Alert, Location, User } from '../entities'
+import jwt from 'jsonwebtoken'
 
 export class UserServices {
     private userRepository = getRepository(User);
@@ -12,7 +13,7 @@ export class UserServices {
     }
 
     async UserRegistration ({ client_id, login, email }): Promise<User> {
-    	const user = await this.userRepository.save({ client_id, login, email })
+    	const user: User = await this.userRepository.save({ client_id, login, email })
     	await getRepository(Location).save({ user })
     	await getRepository(Alert).save({ user })
 
@@ -28,5 +29,9 @@ export class UserServices {
     	const json = await reps.json()
 
     	return json.user_id === client_id ? true : new Error('Forbitten')
+	}
+	
+	getToken (user: User): string {
+    	return jwt.sign({ id: user.client_id }, String(process.env.COOKIE_SECRET), { expiresIn: 60 * 60 })
     }
 }

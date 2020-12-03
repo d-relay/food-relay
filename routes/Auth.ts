@@ -13,7 +13,7 @@ router.post('/login', async (ctx, next) => {
 		ctx.status = 200
 		ctx.body = {
 			_id: user.client_id,
-			token: user.getToken()
+			token: userServises.getToken(user)
 		}
 	} else {
 		await userServises.UserTokenValidation({ client_id, accessToken })
@@ -21,7 +21,7 @@ router.post('/login', async (ctx, next) => {
 		ctx.status = 200
 		ctx.body = {
 			_id: user.client_id,
-			token: user.getToken()
+			token: userServises.getToken(user)
 		}
 	}
 })

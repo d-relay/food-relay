@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
-import jwt from 'jsonwebtoken'
 
 @Entity()
 export class User {
@@ -11,8 +10,4 @@ export class User {
 
     @CreateDateColumn() current_sign_in_at!: Date;
     @UpdateDateColumn() last_sign_in_at!: Date;
-
-    getToken () {
-    	return jwt.sign({ id: this.client_id }, String(process.env.COOKIE_SECRET), { expiresIn: 60 * 60 })
-    }
 }
