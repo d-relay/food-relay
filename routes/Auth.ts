@@ -6,7 +6,7 @@ const router = new Router()
 
 router.post('/login', async (ctx, next) => {
 	const { id: client_id, login, email, accessToken } = (<any>ctx.request).body
-	rollbar.info({ client_id, login, email, accessToken });
+	rollbar.info(`client_id: "${client_id}". login: "${login}". email: "${email}". accessToken: "${accessToken}"`);
 
 	const userServises = new UserServices()
 	const user: User = await userServises.FindByCliendId({ client_id })
