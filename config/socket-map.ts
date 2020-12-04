@@ -5,17 +5,21 @@ import { Server } from 'ws'
 
 export let socketServer: Server
 
-export function createSocketConnetion (server: http.Server) {
+export function createSocketConnetion(server: http.Server) {
 	socketServer = new Server({ server })
 
 	socketServer.on('connection', (socket, req) => {
-		const token = new url.URL(req.url).href.substring(1)
-        type Socket = typeof socket & { _token: string };
-        if (token) {
-        	(socket as Socket)._token = token
-        	socket.on('close', () => {
-        		debug('Client disconnected')
-        	})
-        }
+		try {
+			const token = new url.URL(req.url).href.substring(1)
+			type Socket = typeof socket & { _token: string };
+			if (token) {
+				(socket as Socket)._token = token
+				socket.on('close', () => {
+					debug('Client disconnected')
+				})
+			}
+		} catch (error) {
+
+		}
 	})
 }

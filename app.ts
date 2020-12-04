@@ -9,11 +9,10 @@ import session from 'koa-session'
 loadENV()
 import { accessLogStream, errorBackendLogStream } from './config/logger'
 import { createSocketConnetion } from './config/socket-map'
+import { rollbar } from './config/rollbar'
 import './config/db'
 import './handlers/passport'
 import { controller } from './routes'
-import Rollbar from "rollbar"
-const rollbar = new Rollbar({ accessToken: process.env.ROLLBAR_ACCESS_TOKEN });
 
 import debug from 'debug'
 import http from 'http'
