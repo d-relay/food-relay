@@ -7,7 +7,4 @@ export class Partner {
 
     @Column({ type: 'character varying', length: 20 }) name: string;
     @Column({ type: 'smallint', default: 400 }) min_limit: number;
-
-    @OneToOne(type => Image, { onDelete: 'CASCADE' })
-    @JoinColumn() logo: Image;
 }

@@ -18,6 +18,6 @@ export class Location {
     @Column({ type: 'character varying', length: 4, nullable: true }) floor: string;
     @Column({ type: 'character varying', length: 4, nullable: true }) flat: string;
 
-    @OneToOne(type => User)
+    @OneToOne(_type => User)
     @JoinColumn() user: User;
 }
