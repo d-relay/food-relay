@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
 export class UserTrigger1607197844341 implements MigrationInterface {
-	public async up (queryRunner: QueryRunner): Promise<void> {
-        queryRunner.query(`
-            DROP TRIGGER  IF EXISTS create_alert_location_trigger ON public."user";
-            DROP FUNCTION IF EXISTS public.create_alert_location_function();
+    public async up(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`DROP TRIGGER  IF EXISTS public.create_alert_location_trigger ON public."user";`)
+        await queryRunner.query(`DROP FUNCTION IF EXISTS public.create_alert_location_function();`)
+        await queryRunner.query(`
             CREATE FUNCTION public.create_alert_location_function()
                 RETURNS trigger
                 LANGUAGE 'plpgsql'
@@ -16,21 +16,20 @@ export class UserTrigger1607197844341 implements MigrationInterface {
                 INSERT INTO "public".location("userId") VALUES(NEW.id);
                 RETURN NEW;
             END;
-            $BODY$;
-            
-            ALTER FUNCTION public.create_alert_location_function() OWNER TO postgres;
-            CREATE TRIGGER create_alert_location_trigger
+            $BODY$;`)
+
+        await queryRunner.query(`ALTER FUNCTION public.create_alert_location_function() OWNER TO postgres;`)
+        await queryRunner.query(`CREATE TRIGGER create_alert_location_trigger
             AFTER INSERT
             ON public."user"
             FOR EACH ROW
-            EXECUTE PROCEDURE public.create_alert_location_function();
-            `)
-	}
+            EXECUTE PROCEDURE public.create_alert_location_function();`)
+    }
 
-	public async down (queryRunner: QueryRunner): Promise<void> {
-		queryRunner.query(`
+    public async down(queryRunner: QueryRunner): Promise<void> {
+        queryRunner.query(`
             DROP TRIGGER  IF EXISTS create_alert_location_trigger ON public."user";
             DROP FUNCTION IF EXISTS public.create_alert_location_function()
         `)
-	}
+    }
 }
