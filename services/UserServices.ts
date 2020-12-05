@@ -29,9 +29,9 @@ export class UserServices {
     	const json = await reps.json()
 
     	return json.user_id === client_id ? true : new Error('Forbitten')
-	}
-	
-	getToken (user: User): string {
+    }
+
+    getToken (user: User): string {
     	return jwt.sign({ id: user.client_id }, String(process.env.COOKIE_SECRET), { expiresIn: 60 * 60 })
     }
 }

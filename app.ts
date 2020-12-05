@@ -36,7 +36,7 @@ app.use(async (ctx, next) => {
 		ctx.body = {
 			message: err.message
 		}
-		rollbar.error(err, ctx.request);
+		rollbar.error(err, ctx.request)
 		ctx.app.emit('error', err, ctx)
 	}
 })
@@ -67,14 +67,14 @@ server.on('error', (error: any) => {
 		: 'Port ' + port
 
 	switch (error.code) {
-		case 'EACCES':
-			console.error(bind + ' requires elevated privileges')
-			process.exit(1)
-		case 'EADDRINUSE':
-			console.error(bind + ' is already in use')
-			process.exit(1)
-		default:
-			throw error
+	case 'EACCES':
+		console.error(bind + ' requires elevated privileges')
+		process.exit(1)
+	case 'EADDRINUSE':
+		console.error(bind + ' is already in use')
+		process.exit(1)
+	default:
+		throw error
 	}
 })
 
