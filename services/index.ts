@@ -2,10 +2,12 @@ import { AlertServices } from './AlertServices'
 import { LocationServices } from './LocationServices'
 import { ProfileServices } from './ProfileServices'
 import { UserServices } from './UserServices'
+import { ProviderServices } from './ProviderServices'
 
 export {
 	AlertServices,
 	LocationServices,
 	ProfileServices,
-	UserServices
+	UserServices,
+	ProviderServices,
 }

@@ -10,7 +10,7 @@ const options = {
 passport.use(new JwtStrategy(options, async (jwtPayload, done) => {
 	try {
 		const userServices = new UserServices()
-		const user = await userServices.FindByCliendId({ client_id: jwtPayload.id })
+		const user = await userServices.FindByCliendId({ provider_id: jwtPayload.id })
 		return done(null, user ?? false)
 	} catch (err) {
 		return done(err, false)
