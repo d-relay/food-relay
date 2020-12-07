@@ -11,12 +11,13 @@ interface LoginData {
 	provider_id: string;
 	display_name: string;
 	access_token: string;
+	picture: string;
 	email_verified: boolean;
 }
 
 router.post('/login', async (ctx, next) => {
 	const body = (<any>ctx.request).body
-	const { email, display_name, provider, provider_id, access_token, email_verified } = getLoginData(body);
+	const { email, display_name, provider, provider_id, access_token, email_verified, picture } = getLoginData(body);
 	if (!email_verified) {
 		throw new ForbittenError('email not verified')
 	}
@@ -43,26 +44,33 @@ router.post('/login', async (ctx, next) => {
 
 	ctx.status = 200
 	ctx.body = {
+		email,
+		picture,
+		display_name,
 		_id: _provider.provider_id,
 		token: providerServises.getToken(_provider)
 	}
 })
 
 function getLoginData(body: any): LoginData {
-	const loginData = {} as LoginData;
+	const loginData = {
+		display_name: body.displayName,
+		access_token: body.accessToken,
+		provider_id: body.id,
+	} as LoginData;
 
 	if (body.provider === ProviderType.TWITCH) {
-		loginData.display_name = body.login;
+		loginData.email = body.email;
 		loginData.email_verified = !!body.email;
+		loginData.provider = ProviderType.TWITCH
+		loginData.picture = body.profile_image_url
 	} else if (body.provider === ProviderType.GOOGLE) {
-		loginData.display_name = body.displayName;
+		loginData.email = body.emails[0].value;
 		loginData.email_verified = body.email_verified;
+		loginData.provider = ProviderType.GOOGLE
+		loginData.picture = body.picture;
 	}
 
-	loginData.provider = ProviderType[body.provider];
-	loginData.access_token = body.accessToken;
-	loginData.provider_id = body.id;
-	loginData.email = body.email;
 	return loginData;
 }
 

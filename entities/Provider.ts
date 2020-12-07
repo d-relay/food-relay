@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, ManyToOne } from 'typeorm'
 import { User } from './User'
 
 export enum ProviderType {
@@ -14,6 +14,6 @@ export class Provider {
     @Column({ type: 'character varying', nullable: false, length: 255, unique: true }) provider_id!: string;
     @Column({ type: 'character varying', length: 255 }) display_name: string;
 
-    @OneToOne(_type => User)
+    @ManyToOne(() => User, user => user.providers)
     @JoinColumn() user: User;
 }

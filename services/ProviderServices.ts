@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { getRepository } from 'typeorm'
-import fetch, { Headers, Response } from 'node-fetch'
+import fetch, { Headers } from 'node-fetch'
 
 import { Provider, ProviderType } from '../entities/Provider'
 import { ForbittenError } from '../errors'
@@ -18,21 +18,26 @@ export class ProviderServices {
     }
 
     async tokenValidate({ provider, access_token }: { provider: Provider, access_token: string }): Promise<ForbittenError | void> {
-        let reps: Response;
+        let client_id: string;
 
         if (provider.provider === ProviderType.GOOGLE) {
-            const query = '?id_token=' + access_token;
-            reps = await fetch('https://oauth2.googleapis.com/tokeninfo' + query, { method: 'GET', })
+            const headers = new Headers({
+                Authorization: 'Bearer ' + access_token,
+            })
+            const reps = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', { method: 'GET', headers })
+            const json = await reps.json();
+            client_id = json.sub;
         } else {
             const headers = new Headers({
                 Authorization: 'OAuth ' + access_token,
                 'Content-Type': 'application/json'
             })
-            reps = await fetch('https://id.twitch.tv/oauth2/validate', { method: 'GET', headers })
+            const reps = await fetch('https://id.twitch.tv/oauth2/validate', { method: 'GET', headers })
+            const json = await reps.json();
+            client_id = json.user_id;
         }
 
-        const json = await reps.json()
-        if (json.id !== provider.provider_id)
+        if (client_id !== provider.provider_id)
             throw new ForbittenError('access_token not valid')
     }
 
