@@ -38,7 +38,7 @@ export class ProviderServices {
         }
 
         if (client_id !== provider.provider_id)
-            throw new ForbittenError('access_token not valid')
+            throw new ForbittenError('access_token not valid');
     }
 
     getToken(provider: Provider): string {
