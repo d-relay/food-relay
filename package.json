@@ -10,12 +10,12 @@
     "db:migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
     "db:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate",
     "db:create": "ts-node ./node_modules/typeorm/cli.js migration:create",
-    "db:seed": "ts-node ./seeds/index.ts"
+    "db:seed": "ts-node ./seeds/index.ts",
+    "db:schema": "ts-node ./schema/index.ts"
   },
   "dependencies": {
     "@koa/cors": "^3.1.0",
     "@koa/router": "^10.0.0",
-    "bufferutil": "^4.0.2",
     "dotenv": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.0",
@@ -33,7 +33,8 @@
     "typeorm": "^0.2.29",
     "typescript": "^4.1.3",
     "uuid": "^8.3.2",
-    "ws": "^7.4.1"
+    "ws": "^7.4.1",
+    "typeorm-uml": "^1.6.2"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
@@ -45,14 +46,14 @@
     "@types/koa-session": "^5.10.3",
     "@types/koa__cors": "^3.0.2",
     "@types/koa__router": "^8.0.3",
-    "@types/node": "^14.14.13",
+    "@types/node": "^14.14.14",
     "@types/node-fetch": "^2.5.7",
     "@types/uuid": "^8.3.0",
     "@types/ws": "^7.4.0",
-    "@typescript-eslint/eslint-plugin": "^4.10.0",
-    "@typescript-eslint/parser": "^4.10.0",
+    "@typescript-eslint/eslint-plugin": "^4.11.0",
+    "@typescript-eslint/parser": "^4.11.0",
     "cross-env": "^7.0.3",
-    "eslint": "^7.15.0",
+    "eslint": "^7.16.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
