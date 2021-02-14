@@ -3,7 +3,7 @@ import { User } from '../entities/User'
 import { ProviderType } from '../entities/Provider'
 
 export class UserServices {
-	private userRepository = getRepository(User);
+	constructor(private userRepository = getRepository(User)) { }
 
 	async findByEmail({ email }): Promise<User> {
 		return this.userRepository.findOne({ where: { email } });
@@ -23,6 +23,7 @@ export interface LoginData {
 	picture: string;
 	email_verified: boolean;
 }
+
 export function getLoginData(body: any): LoginData {
 	const loginData = {
 		display_name: body.displayName,

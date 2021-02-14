@@ -1,6 +1,5 @@
 import { Entity, Generated, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm'
 import { User } from './User'
-import { Image } from './Image'
 
 @Entity()
 export class Alert {
