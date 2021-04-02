@@ -16,7 +16,7 @@ router.get('/alert', passport.authenticate('jwt', { session: false }), async (ct
 })
 
 router.get('/alert/personal', async (ctx) => {
-	const { alert_token } = ctx.query
+	const alert_token = '' + ctx.query.alert_token
 
 	const alertServices = new AlertServices()
 	const alert = await alertServices.FindByToken({ alert_token })
