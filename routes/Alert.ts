@@ -28,7 +28,7 @@ router.post('/alert', passport.authenticate('jwt', { session: false }), async (c
 	const user: User = ctx.state.user
 	const params: any = (ctx.request as any).body
 
-	const alertServices = new AlertServices()
+	const alertServices = new AlertServices();
 	const alert = await alertServices.UpdateFields({ user, params })
 
 	ctx.status = 200

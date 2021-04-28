@@ -13,8 +13,8 @@ router.post('/login', async (ctx, next) => {
 		email, display_name, provider,
 		provider_id, access_token, email_verified, picture
 	} = getLoginData(body);
-	if (!email_verified) {
-		throw new ForbittenError('email not verified')
+	if (!email_verified || !provider_id) {
+		throw new ForbittenError('missing required params')
 	}
 
 	const userServises = new UserServices()
