@@ -16,7 +16,6 @@
   "dependencies": {
     "@koa/cors": "^3.1.0",
     "@koa/router": "^10.0.0",
-    "bufferutil": "^4.0.3",
     "dotenv": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.1",
@@ -34,7 +33,6 @@
     "typeorm": "^0.2.32",
     "typeorm-uml": "^1.6.2",
     "typescript": "^4.2.4",
-    "utf-8-validate": "^5.0.4",
     "uuid": "^8.3.2",
     "ws": "^7.4.5"
   },
