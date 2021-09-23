@@ -8,5 +8,11 @@ createConnection({
 	uuidExtension: 'pgcrypto',
 	entities: [
 		path.join(__dirname, '../entities/**.ts')
-	]
+	],
+	// ssl: true,
+	// extra: {
+	// 	ssl: {
+	// 		rejectUnauthorized: false
+	// 	}
+	// }
 })

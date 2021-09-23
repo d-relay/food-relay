@@ -37,7 +37,7 @@ export function getLoginData(body: any): LoginData {
 		loginData.provider = ProviderType.TWITCH
 		loginData.picture = body.profile_image_url
 	} else if (body.provider === ProviderType.GOOGLE) {
-		loginData.email = body.emails[0].value;
+		loginData.email = body.email;
 		loginData.email_verified = body.email_verified;
 		loginData.provider = ProviderType.GOOGLE
 		loginData.picture = body.picture;
